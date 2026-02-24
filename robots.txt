@@ -1,14 +1,4 @@
 User-agent: *
-Disallow: /_forgot/id
-Disallow: /_register
-Disallow: /_login
-Disallow: /member/login
-Disallow: /member/join
-Disallow: /terms
-Disallow: /notice
-Disallow: /support
-Disallow: /lang
-Disallow: /contact
-Disallow: /privacy
-Disallow: /abuse
-Sitemap:https://studiojuai.com/user-sitemap
+Allow: /
+
+Sitemap: https://studiojuai.com/sitemap.xml
