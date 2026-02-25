@@ -184,6 +184,43 @@ var rt_service = 'cr';
 <script type="text/javascript" class="loadScript-aos" src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script type="text/javascript">
 	$('input[class^="loadScript-"]').remove();
+<!-- CF Pages Preload Fix -->
+<script>
+(function(){
+  // Remove loading CSS that hides content
+  var lc = document.getElementById("page-loading-css");
+  if (lc) lc.remove();
+  
+  // Override loadingScript to resolve immediately
+  window.loadingScript = function() {
+    var d = $.Deferred();
+    setTimeout(function(){
+      // Remove hide/preloading classes from all elements
+      $(".preloading").removeClass("preloading");
+      $(".hide").each(function(){
+        var el = $(this);
+        // Only unhide content blocks (userEL*), not structural hides
+        if (el.attr("class") && el.attr("class").match(/userEL\d+/)) {
+          el.removeClass("hide");
+        }
+      });
+      // Also unhide menu items
+      $("#tpl-menu").removeClass("hide preloading");
+      // Force header visibility
+      $("header, .header.el-menu, #mobile-nav").css("opacity","1");
+      d.resolve();
+    }, 100);
+    return d.promise();
+  };
+  
+  // Trigger it now if jQuery is ready
+  if (typeof $ !== "undefined") {
+    $(document).ready(function(){
+      loadingScript();
+    });
+  }
+})();
+</script>
 	var script_preloading = loadingScript(JSON.parse('{"sns":true}'));
 	// script_preloading.done(function() {
 	// 	console.log('site script END');
